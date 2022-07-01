@@ -15,12 +15,36 @@ const Left = styled.div`
 const Right = styled.div`
   width: 40%;
   height: 700px;
+  margin-left: 50px;
 `;
-const DetailTitle = styled.div``;
-const DetailDate = styled.div``;
-const DetailGenre = styled.div``;
-const DetailTime = styled.div``;
-const DetailDesc = styled.div``;
+const DetailTitle = styled.div`
+  font-size: 40px;
+  font-weight: 900;
+  margin-bottom: 40px;
+`;
+
+const DetailDate = styled.li`
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  list-style: none;
+`;
+const DetailGenre = styled.div`
+  margin-top: 20px;
+`;
+const DetailTime = styled.li`
+  font-size: 20px;
+  font-weight: 600;
+
+  list-style: none;
+`;
+const DetailDesc = styled.div`
+  font-size: 18px;
+  font-weight: 200;
+  line-height: 2rem;
+  opacity: 0.8;
+  margin-top: 80px;
+`;
 
 export const Detail = () => {
   const [movieData, setMovieData] = useState();
@@ -48,8 +72,13 @@ export const Detail = () => {
       <Right>
         <DetailTitle>{movieData.title}</DetailTitle>
         <DetailDate>{movieData.release_date}</DetailDate>
-        <DetailGenre>장르</DetailGenre>
         <DetailTime>{movieData.runtime}분</DetailTime>
+        <DetailGenre>
+          {movieData.genres.map((genre) => (
+            <li key={genre.id}>{genre.name}</li>
+          ))}
+        </DetailGenre>
+
         <DetailDesc>{movieData.overview}</DetailDesc>
       </Right>
     </DetailWrap>
