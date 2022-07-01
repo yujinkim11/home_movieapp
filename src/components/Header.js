@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { mainStyle } from "../styles/globalStyle";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 
 const SHeader = styled.div`
   width: 100%;
@@ -16,7 +16,7 @@ const SHeader = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
+  z-index: 9;
   background-color: ${(props) => props.bgColor};
   @media screen and (max-width: 500px) {
     padding: ${mainStyle.moPadding};
@@ -26,6 +26,8 @@ const SHeader = styled.div`
 const Logo = styled.h3`
   font-size: 28px;
   font-weight: 800;
+  position: relative;
+  z-index: 10;
   a {
     color: ${mainStyle.mainColor};
   }
@@ -34,23 +36,17 @@ const Logo = styled.h3`
   }
 `;
 
-const MenuWrap = styled.div`
-  width: 30%;
-  height: 100vh;
-  position: fixed;
-  background-color: #1d1d1d;
-  top: 0;
-  right: ${(props) => props.po};
-  z-index: 99;
+const MenuWrap = styled.ul`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  /* justify-content: center; */
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 
-const Menu = styled.h3`
-  margin-top: 150px;
-  /* margin-left: 100px; */
+const Menu = styled.li`
+  margin-left: 100px;
   font-size: 18px;
   font-weight: 500;
   @media screen and (max-width: 500px) {
@@ -58,17 +54,51 @@ const Menu = styled.h3`
   }
 `;
 
-export const Header = () => {
-  const [posi, setPosi] = useState("-100%");
-  const [bg, setBg] = useState("transparent");
+const MoMenu = styled.div`
+  display: none;
+  @media screen and (max-width: 500px) {
+    display: block;
+  }
+`;
 
-  const handleMenu = () => {
-    if (posi == "-100%") {
-      setPosi("0");
-    } else {
-      setPosi("-100%");
+const MoMenuWrap = styled.ul`
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: ${(props) => props.leftResult};
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: 0.5s;
+  li {
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 100px;
+    &:nth-child(1) {
+      font-size: 25px;
     }
-  };
+  }
+`;
+
+const MenuBtn = styled.div`
+  /* display: none; */
+  font-size: 24px;
+`;
+
+const CloseBtn = styled.li`
+  position: absolute;
+  top: 28px;
+  right: 20px;
+  z-index: 10;
+`;
+
+export const Header = () => {
+  const [bg, setBg] = useState("transparent");
+  const [left, setLeft] = useState("100%");
 
   const handelScroll = () => {
     const sct = window.pageYOffset;
@@ -83,15 +113,12 @@ export const Header = () => {
   window.addEventListener("scroll", handelScroll);
 
   return (
-    <>
-      <SHeader bgColor={bg}>
-        <Logo>
-          <Link to={"/"}>YJ_MOVIE</Link>
-        </Logo>
+    <SHeader bgColor={bg}>
+      <Logo>
+        <Link to={"/"}>YJ_MOVIE</Link>
+      </Logo>
 
-        <FontAwesomeIcon icon={faBars} onClick={handleMenu} />
-      </SHeader>
-      <MenuWrap po={posi}>
+      <MenuWrap>
         <Menu>
           <Link to={"/"}>Home</Link>
         </Menu>
@@ -99,6 +126,23 @@ export const Header = () => {
           <Link to={"/Search"}>Search</Link>
         </Menu>
       </MenuWrap>
-    </>
+
+      <MoMenu>
+        <MenuBtn onClick={() => setLeft("0")}>
+          <FontAwesomeIcon icon={faBars} />
+        </MenuBtn>
+        <MoMenuWrap leftResult={left}>
+          <CloseBtn onClick={() => setLeft("100%")}>
+            <FontAwesomeIcon icon={faClose} />
+          </CloseBtn>
+          <li>
+            <Link to={"/"}>Home</Link>
+          </li>
+          <li>
+            <Link to={"/Search"}>Search</Link>
+          </li>
+        </MoMenuWrap>
+      </MoMenu>
+    </SHeader>
   );
 };

@@ -8,6 +8,7 @@ import { Movies } from "./Movies";
 // console.log(movieApi.nowPlaying());
 import "swiper/css";
 import { Container } from "../../Container";
+import { PageTitle } from "../../PageTitle";
 
 export const Home = () => {
   const [playing, setPlaying] = useState();
@@ -49,6 +50,7 @@ export const Home = () => {
 
   return (
     <div>
+      <PageTitle title={"Home"} />
       {loading ? (
         <Loading />
       ) : (
