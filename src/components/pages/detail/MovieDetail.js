@@ -76,6 +76,7 @@ const Desc = styled.p`
 `;
 
 const Button = styled.div`
+  cursor: pointer;
   width: 180px;
   height: 50px;
   margin-top: 50px;
@@ -87,6 +88,12 @@ const Button = styled.div`
 `;
 
 export const MovieDetail = ({ movieData }) => {
+  const handleScroll = () => {
+    window.scrollTo({
+      top: 800,
+    });
+  };
+
   return (
     <DetailWrap>
       <DetailImg
@@ -110,7 +117,7 @@ export const MovieDetail = ({ movieData }) => {
         <Time>{movieData.runtime} 분</Time>
 
         <Desc>{movieData.overview}</Desc>
-        <Button>예고편 보기</Button>
+        <Button onClick={handleScroll}>예고편 보기</Button>
       </ConWrap>
     </DetailWrap>
   );
